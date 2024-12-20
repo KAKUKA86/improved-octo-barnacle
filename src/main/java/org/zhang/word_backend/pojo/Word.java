@@ -13,6 +13,8 @@ public class Word {
     String wordId;
     String word;
     Integer dId;
+    String hiragana;
+    String romaji;
+    String pronunciation;
     List<Paraphrase> paraphrases;
-//    List<IllustrativeSentence> illustrativeSentences;
 }

@@ -8,4 +8,5 @@ import java.util.List;
 @Mapper
 public interface UserSearchMapper {
     Word selectWordInfo(String word);
+    List<Word> fuzzyQueries(String option);
 }
