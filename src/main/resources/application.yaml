@@ -1,0 +1,35 @@
+#下面这些内容是为了让MyBatis映射
+#指定Mybatis的Mapper文件
+mybatis:
+  mapper-locations: classpath:org/zhang/word_backend/mapper/*.xml
+  #指定Mybatis的实体目录
+  type-aliases-package: org.zhang.word_backend.pojo
+  ## 应用服务 WEB 访问端口
+
+  #mybatis.configuration.log-impl=org.apache.ibatis.logging.stdout.StdOutImpl
+  #mybatis.check-config-location=true
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  check-config-location: true
+server:
+  port: 8080
+#server.port=8080
+#spring.datasource.url=jdbc:mysql://localhost:3306/wordsystem?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+#spring.datasource.username=root
+#spring.datasource.password=root
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/wordsystem?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+
+pagehelper:
+#  数据库方言
+  helper-dialect: mysql
+#  是否支持物理分页，默认为true。
+  reasonable: true
+#  是否支持在方法参数中传递参数，默认为true。
+  support-methods-arguments: true
+#    自定义查询参数的字符串，其中${xxx}会被替换为实际值。
+  params: count=countSql
