@@ -4,9 +4,22 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Data
 @Getter
 @Setter
 public class SearchWord {
-    String option;
+    //总记录数
+    private Long total;
+    //总页数
+    private Long pages;
+    //当前页
+    private Long current;
+    //每页大小
+    private Long size;
+    //查询的字符串
+    private String searchWord;
+    //当前页的数据
+    private List<Word> wordListRecords;
 }

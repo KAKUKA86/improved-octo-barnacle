@@ -10,12 +10,12 @@ import org.zhang.word_backend.pojo.Word;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class WordResult {
+public class WordResultSet {
     Integer status;
     String message;
     Word word;
 
-    public WordResult(Integer status, String message) {
+    public WordResultSet(Integer status, String message) {
         this.status = status;
         this.message = message;
     }
