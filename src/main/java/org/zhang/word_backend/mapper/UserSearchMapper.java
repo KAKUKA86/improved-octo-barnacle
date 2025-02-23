@@ -13,4 +13,6 @@ public interface UserSearchMapper {
     Word selectWordInfo(String word);
 
     Page<SearchWord> selectWordInfoPage(Page<SearchWord> page, @Param("word") String word);
+
+    Integer selectJaKanjiWord(String searchWord);
 }

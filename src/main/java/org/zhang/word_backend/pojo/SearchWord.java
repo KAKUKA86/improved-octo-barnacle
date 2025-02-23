@@ -9,6 +9,10 @@ import java.util.List;
 @Data
 @Getter
 @Setter
+/*
+    className: searchWord
+    description: 搜索词类
+ */
 public class SearchWord {
     //总记录数
     private Long total;

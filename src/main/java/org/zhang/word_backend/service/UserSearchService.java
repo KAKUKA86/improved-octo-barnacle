@@ -9,6 +9,5 @@ import org.zhang.word_backend.util.result.WordResultSet;
 @Service
 public interface UserSearchService {
     WordListResultSet<SearchWord> getWordPage(String searchWord, Long current, Long size);
-
     WordResultSet getWordPageInfo(Word word);
 }

@@ -8,13 +8,16 @@ import java.util.List;
 @Data
 @Getter
 @Setter
-
+/*
+    className: word
+    description: 单词类
+ */
 public class Word {
-    String wordId;
-    String word;
-    Integer dId;
-    String hiragana;
-    String romaji;
-    String pronunciation;
-    List<Paraphrase> paraphrases;
+    private String wordId;
+    private String word;
+    private Integer dId;
+    private String hiragana;
+    private String romaji;
+    private String pronunciation;
+    private List<Paraphrase> paraphrases;
 }

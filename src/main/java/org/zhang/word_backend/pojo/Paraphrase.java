@@ -8,11 +8,13 @@ import java.util.List;
 
 @Data
 @Getter
-@Setter
+/*
+    className: paraphrase
+    description: 释义类
+ */
 public class Paraphrase {
-    String wordId;
-    String paraId;
-    String paraContent;
-    String paraType;
-    List<IllustrativeSentence> illustrativeSentences;
+    private String paraContentZh;
+    private String paraContentJa;
+    private String paraType;
+    private List<IllustrativeSentence> illustrativeSentences;
 }

@@ -42,10 +42,23 @@ public class UserSearchServiceImpl implements UserSearchService {
             wordListResultSet.setStatus(200);
             wordListResultSet.setMessage("ok");
             wordListResultSet.setData(resultPage.getRecords());
-            return wordListResultSet;
+        }else{
+            if(mapper.selectJaKanjiWord(searchWord) != 0){
+                Page<SearchWord> resultPage = mapper.selectWordInfoPage(page, searchWord);
+                if (resultPage.getTotal() == 0) {
+                    wordListResultSet.setStatus(204);
+                    wordListResultSet.setMessage("没有相似数据");
+                }else{
+                    wordListResultSet.setStatus(200);
+                    wordListResultSet.setMessage("ok");
+                    System.out.println(Arrays.toString(resultPage.getRecords().toArray()));
+                    wordListResultSet.setData(resultPage.getRecords());
+                }
+            }else{
+                wordListResultSet.setStatus(400);
+                wordListResultSet.setMessage("输入非法，或查询失败");
+            }
         }
-        wordListResultSet.setStatus(400);
-        wordListResultSet.setMessage("输入非法");
         return wordListResultSet;
     }
 

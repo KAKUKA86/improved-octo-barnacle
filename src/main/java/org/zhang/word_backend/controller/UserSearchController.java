@@ -38,4 +38,5 @@ public class UserSearchController {
     public WordResultSet search(@RequestBody Word word) {
         return userSearchService.getWordPageInfo(word);
     }
+
 }

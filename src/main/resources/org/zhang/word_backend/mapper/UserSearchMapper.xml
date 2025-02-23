@@ -6,7 +6,7 @@
                w.hiragana      AS hiragana,
                w.romaji        AS romaji,
                w.pronunciation AS pronunciation,
-               p.para_content  AS paraContent,
+               p.para_content_zh  AS paraContentZh,
                p.para_type     AS paraType,
                i.sen_content   AS senContent,
                i.sen_trans     AS senTrans
@@ -17,15 +17,22 @@
     </select>
 
     <select id="selectWordInfoPage" resultMap="wordInfoPage">
-        SELECT w.word          AS word,
-               w.hiragana      AS hiragana,
-               w.romaji        AS romaji,
-               w.pronunciation AS pronunciation,
-               p.para_content  AS paraContent,
-               p.para_type     AS paraType
+        SELECT DISTINCT w.word            AS word,
+                        w.hiragana        AS hiragana,
+                        w.romaji          AS romaji,
+                        w.pronunciation   AS pronunciation,
+                        p.para_content_zh AS paraContentZh,
+                        p.para_content_ja AS paraContentJa,
+                        p.para_type       AS paraType
         FROM word w
                  JOIN paraphrase p ON w.word_id = p.word_id
-        WHERE w.word LIKE CONCAT(#{word}, '%')
+        WHERE (w.hiragana LIKE CONCAT(#{word}, '%'))
+           OR (w.word Like CONCAT(#{word}, '%'))
+        </select>
+    <select id="selectJaKanjiWord" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM word
+        WHERE word LIKE CONCAT(#{word}, '%');
     </select>
     <resultMap id="wordInfoPage" type="org.zhang.word_backend.pojo.Word">
         <result property="word" column="word"/>
@@ -33,7 +40,8 @@
         <result property="romaji" column="romaji"/>
         <result property="pronunciation" column="pronunciation"/>
         <collection property="paraphrases" ofType="org.zhang.word_backend.pojo.Paraphrase">
-            <result property="paraContent" column="paraContent"/>
+            <result property="paraContentZh" column="paraContentZh"/>
+            <result property="paraContentJa" column="paraContentJa"/>
             <result property="paraType" column="paraType"/>
         </collection>
     </resultMap>
