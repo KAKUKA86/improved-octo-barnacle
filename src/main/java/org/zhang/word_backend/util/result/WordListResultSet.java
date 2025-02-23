@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.zhang.word_backend.pojo.SearchWord;
-import org.zhang.word_backend.pojo.Word;
 
 import java.util.List;
 
@@ -20,5 +19,5 @@ public class WordListResultSet<T> {
     //信息
     private String message;
     private SearchWord searchWord;
-    private List<SearchWord> data;
+    private List<SearchWord> list;
 }

@@ -25,18 +25,19 @@ public class UserSearchController {
      */
     @PostMapping("/fuzzy")
     public WordListResultSet<SearchWord> fuzzy(@RequestBody SearchWord searchWord) {
+        System.out.println(searchWord);
         return userSearchService.getWordPage(searchWord.getSearchWord(), searchWord.getCurrent(),searchWord.getSize());
     }
 
     /**
      * 查询单词
      *
-     * @param word 查询单词
+     * @param word_id 查询单词id
      * @return 单词信息
      */
-    @PostMapping("/byWord")
-    public WordResultSet search(@RequestBody Word word) {
-        return userSearchService.getWordPageInfo(word);
+    @GetMapping("/byWord")
+    public WordResultSet searchById(@RequestParam String word_id) {
+        return userSearchService.getWordPageInfo(word_id);
     }
 
 }

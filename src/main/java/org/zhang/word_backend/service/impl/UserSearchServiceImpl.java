@@ -3,6 +3,7 @@ package org.zhang.word_backend.service.impl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.stereotype.Service;
 import org.zhang.word_backend.mapper.UserSearchMapper;
+import org.zhang.word_backend.pojo.Paraphrase;
 import org.zhang.word_backend.pojo.SearchWord;
 import org.zhang.word_backend.pojo.Word;
 import org.zhang.word_backend.util.DetectLanguage;
@@ -12,6 +13,7 @@ import org.zhang.word_backend.service.UserSearchService;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class UserSearchServiceImpl implements UserSearchService {
@@ -41,7 +43,7 @@ public class UserSearchServiceImpl implements UserSearchService {
             }
             wordListResultSet.setStatus(200);
             wordListResultSet.setMessage("ok");
-            wordListResultSet.setData(resultPage.getRecords());
+            wordListResultSet.setList(resultPage.getRecords());
         }else{
             if(mapper.selectJaKanjiWord(searchWord) != 0){
                 Page<SearchWord> resultPage = mapper.selectWordInfoPage(page, searchWord);
@@ -52,7 +54,7 @@ public class UserSearchServiceImpl implements UserSearchService {
                     wordListResultSet.setStatus(200);
                     wordListResultSet.setMessage("ok");
                     System.out.println(Arrays.toString(resultPage.getRecords().toArray()));
-                    wordListResultSet.setData(resultPage.getRecords());
+                    wordListResultSet.setList(resultPage.getRecords());
                 }
             }else{
                 wordListResultSet.setStatus(400);
@@ -63,11 +65,11 @@ public class UserSearchServiceImpl implements UserSearchService {
     }
 
     @Override
-    public WordResultSet getWordPageInfo(Word word) {
-        System.out.println("进入service");
-        Word words = mapper.selectWordInfo(word.getWord());
-        System.out.println(words.toString());
-        if (words.toString() == null) return new WordResultSet(204, "无内容");
-        return new WordResultSet(200, "ok", words);
+    public WordResultSet getWordPageInfo(String word_id) {
+        System.out.println("进入service"+word_id);
+        List<Word> words = mapper.selectWordInfo(word_id);
+
+        if (words.isEmpty()) return new WordResultSet(204, "无内容");
+        return new WordResultSet(200, "ok",words);
     }
 }

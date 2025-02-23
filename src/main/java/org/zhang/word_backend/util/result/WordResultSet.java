@@ -13,7 +13,7 @@ import org.zhang.word_backend.pojo.Word;
 public class WordResultSet {
     Integer status;
     String message;
-    Word word;
+    Object word;
 
     public WordResultSet(Integer status, String message) {
         this.status = status;

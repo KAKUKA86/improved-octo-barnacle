@@ -1,40 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.zhang.word_backend.mapper.UserSearchMapper">
-    <select id="selectWordInfo" resultMap="wordResultMap">
-        SELECT w.word          AS word,
-               w.hiragana      AS hiragana,
-               w.romaji        AS romaji,
-               w.pronunciation AS pronunciation,
-               p.para_content_zh  AS paraContentZh,
-               p.para_type     AS paraType,
-               i.sen_content   AS senContent,
-               i.sen_trans     AS senTrans
-        FROM word w
-                 JOIN paraphrase p ON w.word_id = p.word_id
+
+    <select id="selectWordInfo" resultMap="paraphraseResultMap">
+        SELECT
+               p.para_content_zh AS paraContentZh,
+               p.para_type       AS paraType,
+               i.sen_content     AS senContent,
+               i.sen_trans       AS senTrans
+        FROM paraphrase p
                  JOIN illustrative_sentence i ON p.para_id = i.para_id
-        WHERE w.word = #{word};
+        WHERE p.word_id = #{wordId};
     </select>
 
     <select id="selectWordInfoPage" resultMap="wordInfoPage">
-        SELECT DISTINCT w.word            AS word,
+        SELECT DISTINCT w.word_id         AS wordId,
+                        w.word            AS word,
                         w.hiragana        AS hiragana,
                         w.romaji          AS romaji,
                         w.pronunciation   AS pronunciation,
                         p.para_content_zh AS paraContentZh,
                         p.para_content_ja AS paraContentJa,
-                        p.para_type       AS paraType
+                        p.para_type       AS paraType,
+                        i.sen_content     AS senContent,
+                        i.sen_trans       AS senTrans
         FROM word w
                  JOIN paraphrase p ON w.word_id = p.word_id
+                 JOIN illustrative_sentence i ON p.para_id= i.para_id
         WHERE (w.hiragana LIKE CONCAT(#{word}, '%'))
            OR (w.word Like CONCAT(#{word}, '%'))
-        </select>
+    </select>
     <select id="selectJaKanjiWord" resultType="java.lang.Integer">
         SELECT COUNT(*)
         FROM word
         WHERE word LIKE CONCAT(#{word}, '%');
     </select>
     <resultMap id="wordInfoPage" type="org.zhang.word_backend.pojo.Word">
+        <result property="wordId" column="wordId"/>
         <result property="word" column="word"/>
         <result property="hiragana" column="hiragana"/>
         <result property="romaji" column="romaji"/>
@@ -43,20 +45,21 @@
             <result property="paraContentZh" column="paraContentZh"/>
             <result property="paraContentJa" column="paraContentJa"/>
             <result property="paraType" column="paraType"/>
-        </collection>
-    </resultMap>
-    <resultMap id="wordResultMap" type="org.zhang.word_backend.pojo.Word">
-        <result property="word" column="word"/>
-        <result property="hiragana" column="hiragana"/>
-        <result property="romaji" column="romaji"/>
-        <result property="pronunciation" column="pronunciation"/>
-        <collection property="paraphrases" ofType="org.zhang.word_backend.pojo.Paraphrase">
-            <result property="paraContent" column="paraContent"/>
-            <result property="paraType" column="paraType"/>
             <collection property="illustrativeSentences" ofType="org.zhang.word_backend.pojo.IllustrativeSentence">
                 <result property="senContent" column="senContent"/>
                 <result property="senTrans" column="senTrans"/>
             </collection>
+        </collection>
+    </resultMap>
+
+
+    <resultMap id="paraphraseResultMap" type="org.zhang.word_backend.pojo.Paraphrase">
+        <result property="paraContentZh" column="paraContentZh"/>
+        <result property="paraContentJa" column="paraContentJa"/>
+        <result property="paraType" column="paraType"/>
+        <collection property="illustrativeSentences" ofType="org.zhang.word_backend.pojo.IllustrativeSentence">
+            <result property="senContent" column="senContent"/>
+            <result property="senTrans" column="senTrans"/>
         </collection>
     </resultMap>
 
