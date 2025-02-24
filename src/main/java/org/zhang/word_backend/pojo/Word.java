@@ -19,5 +19,6 @@ public class Word {
     private String hiragana;
     private String romaji;
     private String pronunciation;
+    private String dictionaryNames;
     private List<Paraphrase> paraphrases;
 }

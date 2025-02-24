@@ -4,9 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.zhang.word_backend.pojo.Paraphrase;
-import org.zhang.word_backend.pojo.SearchWord;
-import org.zhang.word_backend.pojo.Word;
+import org.zhang.word_backend.pojo.*;
 
 import java.util.List;
 
@@ -19,4 +17,6 @@ public interface UserSearchMapper {
     Page<SearchWord> selectWordInfoPage(Page<SearchWord> page, @Param("word") String word);
 
     Integer selectJaKanjiWord(String searchWord);
+
+    Page<Glossary> selectGlossaryPage(Page<Glossary> page, SearchGlossary searchGlossary);
 }

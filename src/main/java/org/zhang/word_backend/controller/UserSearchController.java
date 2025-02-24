@@ -2,8 +2,11 @@ package org.zhang.word_backend.controller;
 
 
 import org.springframework.web.bind.annotation.*;
+import org.zhang.word_backend.pojo.Glossary;
+import org.zhang.word_backend.pojo.SearchGlossary;
 import org.zhang.word_backend.pojo.SearchWord;
 import org.zhang.word_backend.pojo.Word;
+import org.zhang.word_backend.util.result.GlossaryResultSet;
 import org.zhang.word_backend.util.result.WordListResultSet;
 import org.zhang.word_backend.util.result.WordResultSet;
 import org.zhang.word_backend.service.UserSearchService;
@@ -38,6 +41,16 @@ public class UserSearchController {
     @GetMapping("/byWord")
     public WordResultSet searchById(@RequestParam String word_id) {
         return userSearchService.getWordPageInfo(word_id);
+    }
+
+    /**
+     * 分页查询词单（包含关键字搜索）
+     * @param searchGlossary 显示所有词单
+     * @return 分页显示所有词单
+     */
+    @PostMapping("/glossary")
+    public GlossaryResultSet getAllGlossary (@RequestBody SearchGlossary searchGlossary) {
+        return userSearchService.getAllGlossary(searchGlossary);
     }
 
 }
