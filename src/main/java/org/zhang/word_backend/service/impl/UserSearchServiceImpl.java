@@ -83,11 +83,10 @@ public class UserSearchServiceImpl implements UserSearchService {
      */
     @Override
     public GlossaryResultSet getAllGlossary(SearchGlossary searchGlossary) {
-        //TODO 词单分页查询
         Page<Glossary> page = new Page<>(searchGlossary.getCurrent(), searchGlossary.getSize());
         Page<Glossary> glossaryPage = mapper.selectGlossaryPage(page, searchGlossary);
         if (glossaryPage.getTotal() == 0) {
-            return new GlossaryResultSet(204, "无内容", glossaryPage.getRecords());
+            return new GlossaryResultSet(204, "无内容",glossaryPage.getRecords());
         }
         if (glossaryPage.getRecords().isEmpty()) {
             return new GlossaryResultSet(204, "无内容", glossaryPage.getRecords());

@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.zhang.word_backend.pojo.Glossary;
-import org.zhang.word_backend.pojo.GlossaryList;
 
 import java.util.List;
 @Getter
@@ -17,4 +16,10 @@ public class GlossaryResultSet {
     private String message;
     private List<Glossary> glossaries;
     private Glossary glossary;
+
+    public GlossaryResultSet(int i, String message, List<Glossary> records) {
+        this.status = i;
+        this.message = message;
+        this.glossaries = records;
+    }
 }

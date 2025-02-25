@@ -1,5 +1,6 @@
 package org.zhang.word_backend.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +17,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.zhang.word_backend.service.FileUploadService;
+
+import javax.annotation.Resource;
 
 @Configuration
 @RestController
 @RequestMapping("/files")
 public class CombinedConfig implements WebMvcConfigurer {
+    @Resource
+    private FileUploadService fileUploadService;
 
     private static final Logger logger = LoggerFactory.getLogger(CombinedConfig.class);
 
@@ -29,8 +35,9 @@ public class CombinedConfig implements WebMvcConfigurer {
 
     @PostMapping
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
-        System.out.println("文件名称：" + file.getOriginalFilename());
+        logger.info("文件上传请求: {}", file.getOriginalFilename());
         if (file.isEmpty()) {
+            logger.warn("文件为空");
             return new ResponseEntity<>("文件为空", HttpStatus.BAD_REQUEST);
         }
 
@@ -46,11 +53,11 @@ public class CombinedConfig implements WebMvcConfigurer {
 
             // 保存文件
             file.transferTo(targetFilePath.toFile());
-            System.out.println("文件保存路径: " + targetFilePath.toString());
+            logger.info("文件保存路径: {}", targetFilePath.toString());
 
             return new ResponseEntity<>("文件上传成功", HttpStatus.OK);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("文件上传失败", e);
             return new ResponseEntity<>("文件上传失败", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
