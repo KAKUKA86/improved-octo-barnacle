@@ -10,11 +10,12 @@ import java.util.List;
  * &#064;description:  仅作基础分页，不做模糊查询
  */
 @Data
-public class SearchGlossary {
+public class PagingSearchGlossary {
     private int total;
     private int pages;
     private int current;
     private int size;
+    
     //可能存在的搜索词
     private String searchGlossary;
     //可能存在的词单类别

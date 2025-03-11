@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.zhang.word_backend.mapper.GlossaryMapper">
+    <insert id="insertGlossary">
+        INSERT INTO glossary(user_id, list_name, description, created_at, is_public, category_id, cover_url,
+                             cover_image_name)
+        VALUES (#{userId}, #{listName}, #{description}, #{createdAt}, #{isPublic}, #{categoryId}, #{coverUrl},
+                #{coverImageName})
+    </insert>
+    <!--   按照收藏次数高到低查询词单-->
+    <select id="selectGlossaryPage" resultMap="RecommendGlossaryPage">
+        SELECT g.glossary_id,
+               g.list_name,
+               g.description,
+               g.created_at,
+               g.category_id,
+               g.cover_url,
+               g.cover_image_name
+        FROM glossary g
+                 LEFT JOIN (SELECT glossary_id,
+                                   COUNT(glossary_id) AS count
+                            FROM glossary_collection
+                            GROUP BY glossary_id
+                            ORDER BY count DESC) AS gc ON g.glossary_id = gc.glossary_id
+        WHERE (gc.count IS NOT NULL OR gc.count = 0)
+          AND g.is_public = 1
+        ORDER BY COALESCE(gc.count, 0) DESC
+    </select>
+    <resultMap id="RecommendGlossaryPage" type="Glossary">
+        <result column="glossary_id" property="glossaryId"/>
+        <result column="list_name" property="listName"/>
+        <result column="description" property="description"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="cover_url" property="coverUrl"/>
+    </resultMap>
+</mapper>

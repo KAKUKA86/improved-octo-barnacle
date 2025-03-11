@@ -46,9 +46,6 @@ public class Glossary {
     private String coverUrl;
 
     /** 封面图片 */
-    private MultipartFile coverImage;
-
-    /** 封面图片元数据 */
-    private String coverMeta;
+    private String coverImageName;
 
 }

@@ -14,24 +14,13 @@ import javax.annotation.Resource;
 @Service
 public class UserCreateServiceImpl implements UserCreateService {
     @Resource
-    private UserCreateMapper userCreateMapper;
-
-    @Resource
-    private FileUploadService fileUploadService;
+    private UserCreateMapper mapper;
 
     @Override
-    public ResponseEntity<GlossaryResultSet> newGlossary(Glossary glossary, MultipartFile imageFile) {
-        try{
-            String imagePath = fileUploadService.uploadFile(imageFile);
-            glossary.setCoverUrl(imagePath);
-            int affectedRows = userCreateMapper.insertGlossary(glossary);
-            if (affectedRows > 0)
-                return ResponseEntity.ok(new GlossaryResultSet(200, "创建词单成功", null, glossary));
-            else
-                return ResponseEntity.status(500).body(new GlossaryResultSet(500, "创建词单失败", null, null));
-        }catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(500).body(new GlossaryResultSet(500, "创建词单失败", null, null));
-        }
+    public ResponseEntity<GlossaryResultSet> newGlossary(Glossary glossary) {
+        int affectedRows = mapper.insertGlossary(glossary);
+        if (affectedRows != 1)
+            return ResponseEntity.badRequest().body(new GlossaryResultSet(false, "新建词单失败"));
+        return ResponseEntity.ok(new GlossaryResultSet(true, "新建词单成功"));
     }
 }

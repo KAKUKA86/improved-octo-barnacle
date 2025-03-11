@@ -2,7 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.zhang.word_backend.mapper.UserMapper">
 
-<!--    <select id="selectUserByPhoneOrEmailAndPassword" resultType="org.zhang.word_backend.pojo.User">-->
-
-<!--    </select>-->
+    <select id="selectUserByPhoneOrEmailAndPassword" resultMap="userResultMap">
+        SELECT user.user_id, user.user_name
+        FROM user
+        where (user.user_phone = #{user_phone} or user.user_email = #{user_email})
+        and user.user_password = #{user_password}
+    </select>
+    <resultMap id="userResultMap" type="user">
+        <result property="user_id" column="user_id"/>
+        <result property="user_name" column="user_name"/>
+    </resultMap>
 </mapper>

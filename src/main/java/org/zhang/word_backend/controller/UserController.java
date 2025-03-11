@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.zhang.word_backend.pojo.User;
-import org.zhang.word_backend.pojo.UserResponse;
+import org.zhang.word_backend.util.result.UserResponse;
 import org.zhang.word_backend.service.UserService;
 
 import javax.annotation.Resource;
@@ -25,10 +25,14 @@ public class UserController {
         logger.info("用户注册请求: {}", user);
         UserResponse response = new UserResponse();
         try {
-            Integer registeredUser = userService.registerUser(user);
+            User registeredUser = userService.registerUser(user);
             response.setStatus("success");
             response.setMessage("用户注册成功");
-            logger.info("用户注册成功: {}", registeredUser);
+            User user1 = new User();
+            user1.setUser_name(registeredUser.getUser_name());
+            user1.setUser_id(registeredUser.getUser_id());
+            response.setUser(user1);
+            logger.info("用户注册成功: {}", user1);
         } catch (Exception e) {
             response.setStatus("error");
             response.setMessage("用户注册失败: " + e.getMessage());
@@ -45,6 +49,7 @@ public class UserController {
             User loggedInUser = userService.loginUser(user);
             response.setStatus("success");
             response.setMessage("用户登录成功");
+            response.setUser(loggedInUser);
             logger.info("用户登录成功: {}", loggedInUser);
             response.setUser(loggedInUser);
         } catch (Exception e) {

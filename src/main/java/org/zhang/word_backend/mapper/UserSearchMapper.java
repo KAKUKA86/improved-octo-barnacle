@@ -1,6 +1,5 @@
 package org.zhang.word_backend.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -18,5 +17,5 @@ public interface UserSearchMapper {
 
     Integer selectJaKanjiWord(String searchWord);
 
-    Page<Glossary> selectGlossaryPage(Page<Glossary> page, SearchGlossary searchGlossary);
+    Page<Glossary> selectGlossaryPage(Page<Glossary> page, PagingSearchGlossary pagingSearchGlossary);
 }

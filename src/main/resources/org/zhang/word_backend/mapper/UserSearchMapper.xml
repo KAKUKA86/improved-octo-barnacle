@@ -30,7 +30,7 @@
                  LEFT JOIN paraphrase p ON w.word_id = p.word_id
                  LEFT JOIN illustrative_sentence i ON p.para_id= i.para_id
                  LEFT JOIN word_dictionary wd ON w.word_id = wd.word_id
-                 LEFT JOIN dectionary d ON wd.d_id = d.d_id
+                 LEFT JOIN dictionary d ON wd.d_id = d.d_id
         WHERE (w.hiragana LIKE CONCAT(#{word}, '%'))
            OR (w.word Like CONCAT(#{word}, '%'))
         group by w.word_id, w.word, w.hiragana, w.romaji, w.pronunciation,

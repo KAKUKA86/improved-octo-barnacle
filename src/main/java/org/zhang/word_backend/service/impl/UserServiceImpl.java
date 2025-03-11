@@ -12,16 +12,21 @@ public class UserServiceImpl implements UserService {
     @Resource
     private UserMapper userMapper;
     @Override
-    public Integer registerUser(User user) {
+    public User registerUser(User user) {
+        if (userMapper.selectUserByPhoneOrEmail(user) != 0)
+            throw new RuntimeException("用户已存在,请直接登录或修改邮箱和电话号码");
          //如果数据库返回值不为1，则抛出异常
-        if(userMapper.insertUser(user)!=1){
+        int registerUser= userMapper.insertUser(user);
+        if(registerUser != 1){
             throw new RuntimeException("用户注册失败");
-        }return 1;
+        }
+        return userMapper.selectUserByPhoneOrEmailAndPassword(user);
     }
 
     @Override
     public User loginUser(User user) {
-        User loginuser =  userMapper.selectUserByPhoneOrEmailAndPassword(user.getUser_email(),user.getUser_password());
+        User loginuser =  userMapper.selectUserByPhoneOrEmailAndPassword(user);
+        System.out.println("登录用户："+loginuser.getUser_name());
         if ( loginuser == null)
             throw new RuntimeException("用户登录失败");
         return loginuser;

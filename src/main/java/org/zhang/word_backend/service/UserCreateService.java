@@ -9,5 +9,5 @@ import org.zhang.word_backend.util.result.GlossaryResultSet;
 
 @Service
 public interface UserCreateService {
-    ResponseEntity<GlossaryResultSet> newGlossary(Glossary glossary, MultipartFile imageFile);
+    ResponseEntity<GlossaryResultSet> newGlossary(Glossary glossary);
 }
